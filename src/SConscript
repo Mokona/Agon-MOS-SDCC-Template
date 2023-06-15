@@ -1,0 +1,17 @@
+import os
+
+source_files = Split("""
+crt/crt0.s
+lib/mos.s
+main.c
+""")
+
+env = Environment(CC='sdcc',
+                  CFLAGS='-mez80_z80 -Iinclude/ --reserve-regs-iy --std-c2x --fomit-frame-pointer',
+                  LINKFLAGS='--no-std-crt0 -mez80_z80 --code-loc 100',
+                  AS='sdasz80',
+                  ASFLAGS='-plosgff',
+                  OBJSUFFIX='.rel',
+                  ENV={'PATH': os.environ['PATH']})
+
+env.Program('main.ihx', source_files)
