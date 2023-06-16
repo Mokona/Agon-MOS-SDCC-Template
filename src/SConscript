@@ -5,7 +5,7 @@ crt/crt0.s
 lib/mos.s
 main.c
 """)
-                     
+
 
 def additional_prog_files(target, source, env):
     target_name = target[0].name
@@ -15,10 +15,13 @@ def additional_prog_files(target, source, env):
     return target, source
 
 
-env = Environment(CC='sdcc',
+SDCC = WhereIs('sdcc')
+SDASZ80 = WhereIs('sdasz80')
+
+env = Environment(CC=SDCC,
                   CFLAGS='-mez80_z80 -Iinclude/ --reserve-regs-iy --std-c2x --fomit-frame-pointer',
                   LINKFLAGS='--no-std-crt0 -mez80_z80 --code-loc 100',
-                  AS='sdasz80',
+                  AS=SDASZ80,
                   ASFLAGS='-plosgff',
                   OBJSUFFIX='.rel',
                   ENV={'PATH': os.environ['PATH']})
