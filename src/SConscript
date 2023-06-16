@@ -1,4 +1,3 @@
-import os
 import os.path
 
 source_files = Split("""
@@ -8,7 +7,7 @@ main.c
 """)
                      
 
-def aditionnal_prog_files(target, source, env):
+def additional_prog_files(target, source, env):
     target_name = target[0].name
     target.append(target_name.replace('.ihx', '.lk'))
     target.append(target_name.replace('.ihx', '.map'))
@@ -23,8 +22,9 @@ env = Environment(CC='sdcc',
                   ASFLAGS='-plosgff',
                   OBJSUFFIX='.rel',
                   ENV={'PATH': os.environ['PATH']})
-env.Append(PROGEMITTER=aditionnal_prog_files)
-
+env.Append(PROGEMITTER=additional_prog_files)
+env.Tool('compilation_db')
+env.CompilationDatabase()
 
 env.Program('main.ihx', source_files)
 env.Command('main.lk.fake', 'main.lk', 'sdldz80 -nf $SOURCE')
@@ -33,5 +33,3 @@ env.Command('main.bin', 'main.ihx', 'sdobjcopy -I ihex -O binary $SOURCE $TARGET
 env.Depends('main.bin', 'main.lk.fake')
 
 env.Install('../', 'main.bin')
-
-#    COMMAND ${CMAKE_COMMAND} -E copy main.bin ${CMAKE_SOURCE_DIR}/main.bin
