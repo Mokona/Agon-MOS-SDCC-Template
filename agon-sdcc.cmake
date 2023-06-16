@@ -1,4 +1,0 @@
-set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_C_COMPILER sdcc)
-set(CMAKE_ASM_COMPILER sdasz80)
-set(CMAKE_ASM_COMPILER_ID sdasz80)
